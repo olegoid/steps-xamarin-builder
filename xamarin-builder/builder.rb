@@ -71,10 +71,7 @@ class Builder
     puts
 
     begin
-      puts 1
-      puts mdtool_build_command.join(' ')
       pipe = IO.popen(mdtool_build_command.join(' '))
-      puts 2
 
       pipe.each do |line|
         puts line
