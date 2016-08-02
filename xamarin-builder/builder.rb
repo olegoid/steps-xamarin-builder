@@ -67,7 +67,7 @@ class Builder
     }
 
     puts
-    puts "Run build in diagnostic mode: \e[34m#{build_command}\e[0m"
+    puts "Run build in diagnostic mode: \e[34m#{mdtool_build_command}\e[0m"
     puts
 
     pipe = IO.popen(mdtool_build_command.join(' '))
