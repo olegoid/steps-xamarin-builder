@@ -34,7 +34,7 @@ class Builder
       puts "\e[34m#{build_command}\e[0m"
       puts
 
-      if ([MDTOOL_PATH, 'build'] & build_command).any?
+      if ([MDTOOL_PATH, 'build', 'archive'] & build_command).any?
         run_mdtool_in_diagnostic_mode(build_command)
       else
         raise 'Build failed' unless system(build_command.join(' '))
@@ -75,8 +75,8 @@ class Builder
 
       pipe.each do |line|
         puts line
-        timer.stop if timer.running?
-        timer.start if line.include? "Loading projects"
+        # timer.stop if timer.running?
+        # timer.start if line.include? "Loading projects"
       end
     rescue => ex
       error_with_message(ex.inspect.to_s)
