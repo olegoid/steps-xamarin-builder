@@ -71,13 +71,11 @@ class Builder
     puts
 
     begin
-      pipe = IO.popen(mdtool_build_command.join(' '))
-
-      pipe.each do |line|
-        puts line
-        # timer.stop if timer.running?
-        # timer.start if line.include? "Loading projects"
-      end
+      pipe = IO.popen(mdtool_build_command.join(' ')).each do |line|
+          puts line
+          timer.stop if timer.running?
+          timer.start if line.include? "Loading projects"
+        end
     rescue => ex
       error_with_message(ex.inspect.to_s)
       error_with_message('--- Stack trace: ---')
