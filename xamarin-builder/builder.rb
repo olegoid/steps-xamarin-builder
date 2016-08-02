@@ -70,12 +70,19 @@ class Builder
     puts "Run build in diagnostic mode: \e[34m#{mdtool_build_command}\e[0m"
     puts
 
-    pipe = IO.popen(mdtool_build_command.join(' '))
+    begin
+      pipe = IO.popen(mdtool_build_command.join(' '))
 
-    pipe.each do |line|
-      puts line
-      timer.stop if timer.running?
-      timer.start if line.include? "Loading projects"
+      pipe.each do |line|
+        puts line
+        timer.stop if timer.running?
+        timer.start if line.include? "Loading projects"
+      end
+    rescue => ex
+      error_with_message(ex.inspect.to_s)
+      error_with_message('--- Stack trace: ---')
+      error_with_message(ex.backtrace.to_s)
+      exit(1)
     end
   end
 
