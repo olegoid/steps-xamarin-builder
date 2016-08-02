@@ -62,7 +62,7 @@ class Builder
   def run_mdtool_in_diagnostic_mode(mdtool_build_command)
     pipe = nil
 
-    timer = Timer.new(1) { # 15 minutes timeout
+    timer = Timer.new(900) { # 15 minutes timeout
       hijack_process(pipe.pid)
     }
 
@@ -70,19 +70,10 @@ class Builder
     puts "Run build in diagnostic mode: \e[34m#{mdtool_build_command}\e[0m"
     puts
 
-    begin
-      pipe = IO.popen(mdtool_build_command.join(' ')).each do |line|
-          puts line
-          timer.stop if timer.running?
-          timer.start if line.include? "Loading projects"
-      end
-
-      puts system(mdtool_build_command.join(' '))
-    rescue => ex
-      error_with_message(ex.inspect.to_s)
-      error_with_message('--- Stack trace: ---')
-      error_with_message(ex.backtrace.to_s)
-      exit(1)
+    pipe = IO.popen(mdtool_build_command.join(' ')).each do |line|
+        puts line
+        timer.stop if timer.running?
+        timer.start if line.include? "Loading projects"
     end
   end
 
