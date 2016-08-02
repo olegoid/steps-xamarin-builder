@@ -62,7 +62,7 @@ class Builder
   def run_mdtool_in_diagnostic_mode(mdtool_build_command)
     pipe = nil
 
-    timer = Timer.new(900) { # 15 minutes timeout
+    timer = Timer.new(1) { # 15 minutes timeout
       hijack_process(pipe.pid)
     }
 
