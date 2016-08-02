@@ -34,7 +34,7 @@ class Builder
       puts "\e[34m#{build_command}\e[0m"
       puts
 
-      if ([MDTOOL_PATH, 'build'] & build_command).present?
+      if [MDTOOL_PATH, 'build'].to_set.intersect?(build_command.to_set)
         run_mdtool_in_diagnostic_mode(build_command)
       else
         raise 'Build failed' unless system(build_command.join(' '))
