@@ -75,7 +75,9 @@ class Builder
           puts line
           timer.stop if timer.running?
           timer.start if line.include? "Loading projects"
-        end
+      end
+
+      puts system(mdtool_build_command.join(' '))
     rescue => ex
       error_with_message(ex.inspect.to_s)
       error_with_message('--- Stack trace: ---')
